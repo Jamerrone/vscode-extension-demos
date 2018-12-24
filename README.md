@@ -1,1 +1,1 @@
-# vscode-extension-demos
+# vsCode Extension Demos

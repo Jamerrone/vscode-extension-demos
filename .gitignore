@@ -1,0 +1,7 @@
+### macOS ###
+# General
+.DS_Store
+
+### Node ###
+# Dependency Directories
+node_modules/
