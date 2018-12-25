@@ -1,8 +1,9 @@
 {
   "name": "demo-1-hello-world",
+  "publisher": "james-perrone",
   "displayName": "Demo 1: Hello World",
   "description": "",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "engines": {
     "vscode": "^1.30.0"
   },
