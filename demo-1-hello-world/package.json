@@ -10,14 +10,19 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:extension.helloWorld"
+    "onCommand:extension.helloVSCode",
+    "onCommand:extension.currentTime"
   ],
   "main": "./extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "extension.helloWorld",
-        "title": "Hello World"
+        "command": "extension.helloVSCode",
+        "title": "Hello VS Code"
+      },
+      {
+        "command": "extension.currentTime",
+        "title": "Current Time"
       }
     ]
   },
