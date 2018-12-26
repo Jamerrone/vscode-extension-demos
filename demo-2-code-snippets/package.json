@@ -1,0 +1,20 @@
+{
+  "name": "demo-2-code-snippets",
+  "displayName": "Demo 2: Code Snippets",
+  "description": "",
+  "version": "1.0.0",
+  "engines": {
+    "vscode": "^1.30.0"
+  },
+  "categories": [
+    "Snippets"
+  ],
+  "contributes": {
+    "snippets": [
+      {
+        "language": "javascript",
+        "path": "./snippets/snippets.json"
+      }
+    ]
+  }
+}
