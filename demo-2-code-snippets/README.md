@@ -82,7 +82,7 @@ export default class Untitled {
 }
 ```
 
-Now take a look at the class name of Untitled. That is the file's name. For this example, we are going to be using one of the available variables provided to us by VS Code. In your snippets.json file under the clg snippet paste the following code:
+Now take a look at the class name of Untitled. That is the file's name. For this example, we are going to be using one of the many available variables provided to us by VS Code. In your snippets.json file under the clg snippet paste the following code:
 
 ```json
 "exportClass": {
@@ -98,6 +98,6 @@ Now take a look at the class name of Untitled. That is the file's name. For this
 }
 ```
 
-Notice how I decided to use the array method I explained earlier for this example in place of the `\n` method. This is simply done for rideability purposes. In this example, you can also see a variable with a default value given to it (`${1:classBody}`). Now let's take a closer look at `${TM_FILENAME_BASE/[^a-z]//gi}`. The variable `TM_FILENAME_BASE` is given to us by VS Code and it stores the file name without its extension. Using `/[^a-z]//gi` we can filter out any nonletter character from the string. So for example, if the file's name is `MyClass-5` the class name rendered by our snippet is `MyClass`. You can now test the new snippet by pressing `F5` and by typing `class` inside a JavaScript file, just like with the previous example.
+Notice how I decided to use the array method I explained earlier for this example in place of the `\n` method. This is simply done for rideability purposes. In this example, you can also see a variable with a default value given to it (`${1:classBody}`). Now let's take a closer look at `${TM_FILENAME_BASE/[^a-z]//gi}`. The variable `TM_FILENAME_BASE` is provided to us by VS Code and it stores the file name without its extension. Using `/[^a-z]//gi` we can filter out any nonletter character from the string. So for example, if the file's name is `MyClass-5` the class name rendered by our code snippet should be `MyClass`. You are now able to test the new `class` snippet by pressing the `F5` key and by typing `class` inside a JavaScript file, just like the previous example.
 
-That is all for today's demo/guide! I really hope you guys found it somewhat useful. For more information about code snippets, I redirect you to the [official guide](https://code.visualstudio.com/docs/editor/userdefinedsnippets) where you can find all the information you need and also a list with all the available variables provided to us.
+That is all for today's demo/guide! I really hope you guys found it somewhat useful. For more information about writing your own code snippets, I redirect you to the [official guide](https://code.visualstudio.com/docs/editor/userdefinedsnippets).
