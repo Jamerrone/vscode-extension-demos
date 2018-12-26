@@ -1,1 +1,18 @@
-{}
+{
+  "consoleLog": {
+    "prefix": "clg",
+    "body": "console.log('$1');\n$2",
+    "description": "Displays a message in the console."
+  },
+  "exportClass": {
+    "prefix": "class",
+    "body": [
+      "export default class ${TM_FILENAME_BASE/[^a-z]//gi} {",
+      "  constructor() {",
+      "    ${1:classBody}",
+      "  }",
+      "};\n$2"
+    ],
+    "description": "Export default class in ES6 syntax."
+  }
+}
