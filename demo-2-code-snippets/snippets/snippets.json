@@ -13,6 +13,6 @@
       "  }",
       "};\n$2"
     ],
-    "description": "Export default class in ES6 syntax."
+    "description": "Export default class in ES5 syntax."
   }
 }
