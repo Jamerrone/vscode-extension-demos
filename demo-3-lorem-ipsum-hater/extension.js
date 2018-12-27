@@ -8,7 +8,7 @@ function activate(context) {
     color: '#263238',
   });
 
-  const loremParagraphDecorationType = vscode.window.createTextEditorDecorationType(
+  const loremSentenceDecorationType = vscode.window.createTextEditorDecorationType(
     {
       borderColor: '#FF1744',
       borderStyle: 'solid',
@@ -49,13 +49,13 @@ function activate(context) {
     }
 
     let loremMatch;
-    let paragraphMatch;
+    let sentenceMatch;
     const content = activeEditor.document.getText();
     const languageId = activeEditor.document.languageId;
     const loremRegEx = /\blorem\b/gi;
     const lorems = [];
-    const loremsParagraph = [];
-    const paragraphRegEx = /(?:[a-z\d][^!?.>]*?|)\blorem\b[^!?.<]*/gim;
+    const loremsSentence = [];
+    const sentenceRegEx = /(?:[a-z\d][^!?.>]*?|)\blorem\b[^!?.<]*/gim;
 
     if (languageId === 'html') {
       while ((loremMatch = loremRegEx.exec(content))) {
@@ -70,24 +70,21 @@ function activate(context) {
         lorems.push(decoration);
       }
 
-      while ((paragraphMatch = paragraphRegEx.exec(content))) {
-        const startPos = activeEditor.document.positionAt(paragraphMatch.index);
+      while ((sentenceMatch = sentenceRegEx.exec(content))) {
+        const startPos = activeEditor.document.positionAt(sentenceMatch.index);
         const endPos = activeEditor.document.positionAt(
-          paragraphMatch.index + paragraphMatch[0].length,
+          sentenceMatch.index + sentenceMatch[0].length,
         );
         const decoration = {
           range: new vscode.Range(startPos, endPos),
           hoverMessage: 'Do **NOT** use "Lorem Ipsum"!',
         };
 
-        loremsParagraph.push(decoration);
+        loremsSentence.push(decoration);
       }
 
       activeEditor.setDecorations(loremDecorationType, lorems);
-      activeEditor.setDecorations(
-        loremParagraphDecorationType,
-        loremsParagraph,
-      );
+      activeEditor.setDecorations(loremSentenceDecorationType, loremsSentence);
     }
   };
 
