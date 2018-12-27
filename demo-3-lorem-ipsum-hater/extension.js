@@ -54,7 +54,7 @@ function activate(context) {
     const languageId = activeEditor.document.languageId;
     const loremRegEx = /\blorem\b/gi;
     const lorems = [];
-    const loremsSentence = [];
+    const loremSentences = [];
     const sentenceRegEx = /(?:[a-z\d][^!?.>]*?|)\blorem\b[^!?.<]*/gim;
 
     if (languageId === 'html') {
@@ -80,11 +80,11 @@ function activate(context) {
           hoverMessage: 'Do **NOT** use "Lorem Ipsum"!',
         };
 
-        loremsSentence.push(decoration);
+        loremSentences.push(decoration);
       }
 
       activeEditor.setDecorations(loremDecorationType, lorems);
-      activeEditor.setDecorations(loremSentenceDecorationType, loremsSentence);
+      activeEditor.setDecorations(loremSentenceDecorationType, loremSentences);
     }
   };
 

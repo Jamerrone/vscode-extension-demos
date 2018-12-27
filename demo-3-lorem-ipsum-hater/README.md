@@ -92,4 +92,67 @@ activeEditor && triggerUpdateDecorations();
 
 - `activeEditor` is the variable where we store the currently active editor.
 - The `triggerUpdateDecorations()` function checks if the `timeout` is set and if so, it deletes it. Then, it fires a new function called `updateDecorations()` after a short timeout of `250` milliseconds. This in order to limit how often our text decorations are applied, otherwise we can introduce input lag and/or bad performance.
-- `onDidChangeTextDocument()` and `onDidChangeActiveTextEditor()` are event listeners that make sure `activeEditor` always refers to the currently active editor. It also runs the `triggerUpdateDecorations()` function if the active editor is changed.
+- `onDidChangeTextDocument()` and `onDidChangeActiveTextEditor()` are event listeners that make sure `activeEditor` always refers to the currently active editor. It also runs the `triggerUpdateDecorations()` function if the active editor has changed.
+
+Now that we have our decorators and the user's curent active editor there is only one thing left to do. We need to render our decorators! Under the `triggerUpdateDecorations()` function and above `activeEditor && triggerUpdateDecorations()` paste the following code snippet:
+
+```javascript
+const updateDecorations = () => {
+  if (!activeEditor) {
+    return;
+  }
+
+  let loremMatch;
+  let sentenceMatch;
+  const content = activeEditor.document.getText();
+  const languageId = activeEditor.document.languageId;
+  const loremRegEx = /\blorem\b/gi;
+  const lorems = [];
+  const loremSentences = [];
+  const sentenceRegEx = /(?:[a-z\d][^!?.>]*?|)\blorem\b[^!?.<]*/gim;
+
+  if (languageId === 'html') {
+    while ((loremMatch = loremRegEx.exec(content))) {
+      const startPos = activeEditor.document.positionAt(loremMatch.index);
+      const endPos = activeEditor.document.positionAt(
+        loremMatch.index + loremMatch[0].length,
+      );
+      const decoration = {
+        range: new vscode.Range(startPos, endPos),
+      };
+
+      lorems.push(decoration);
+    }
+
+    while ((sentenceMatch = sentenceRegEx.exec(content))) {
+      const startPos = activeEditor.document.positionAt(sentenceMatch.index);
+      const endPos = activeEditor.document.positionAt(
+        sentenceMatch.index + sentenceMatch[0].length,
+      );
+      const decoration = {
+        range: new vscode.Range(startPos, endPos),
+        hoverMessage: 'Do **NOT** use "Lorem Ipsum"!',
+      };
+
+      loremSentences.push(decoration);
+    }
+
+    activeEditor.setDecorations(loremDecorationType, lorems);
+    activeEditor.setDecorations(loremSentenceDecorationType, loremSentences);
+  }
+};
+```
+
+There is a lot of stuff going on here, but most of the code is duplicated because we need to apply two different text decorators. Let's break it down, shall we?
+
+First, let's take a look at our two regular expressions:
+
+- `const loremRegEx = /\blorem\b/gi;`: searches the entire file for the word `lorem` and returns every instance thereof.
+- `const sentenceRegEx = /(?:[a-z\d][^!?.>]*?|)\blorem\b[^!?.<]*/gim;`: searches the entire file for the word `lorem` and returns every sentence where the word was found.
+
+Now let's take a look at our variables:
+
+- `loremMatch` & `sentenceMatch`: temporary stores the current found match.
+- `content`: stores the content of the current active file.
+- `languageId`: stores the language id of the current active file.
+- `lorems` & `loremSentences`: arrays that store every found match.
