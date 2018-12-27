@@ -50,39 +50,45 @@ function activate(context) {
 
     let loremMatch;
     let paragraphMatch;
+    const content = activeEditor.document.getText();
+    const languageId = activeEditor.document.languageId;
     const loremRegEx = /\blorem\b/gi;
-    const paragraphRegEx = /(?:[a-z\d][^!?.>{\[;]*?|)\blorem\b[^!?.<}\];]*/gim;
     const lorems = [];
     const loremsParagraph = [];
-    const content = activeEditor.document.getText();
+    const paragraphRegEx = /(?:[a-z\d][^!?.>]*?|)\blorem\b[^!?.<]*/gim;
 
-    while ((loremMatch = loremRegEx.exec(content))) {
-      const startPos = activeEditor.document.positionAt(loremMatch.index);
-      const endPos = activeEditor.document.positionAt(
-        loremMatch.index + loremMatch[0].length,
+    if (languageId === 'html') {
+      while ((loremMatch = loremRegEx.exec(content))) {
+        const startPos = activeEditor.document.positionAt(loremMatch.index);
+        const endPos = activeEditor.document.positionAt(
+          loremMatch.index + loremMatch[0].length,
+        );
+        const decoration = {
+          range: new vscode.Range(startPos, endPos),
+        };
+
+        lorems.push(decoration);
+      }
+
+      while ((paragraphMatch = paragraphRegEx.exec(content))) {
+        const startPos = activeEditor.document.positionAt(paragraphMatch.index);
+        const endPos = activeEditor.document.positionAt(
+          paragraphMatch.index + paragraphMatch[0].length,
+        );
+        const decoration = {
+          range: new vscode.Range(startPos, endPos),
+          hoverMessage: 'Do **NOT** use "Lorem Ipsum"!',
+        };
+
+        loremsParagraph.push(decoration);
+      }
+
+      activeEditor.setDecorations(loremDecorationType, lorems);
+      activeEditor.setDecorations(
+        loremParagraphDecorationType,
+        loremsParagraph,
       );
-      const decoration = {
-        range: new vscode.Range(startPos, endPos),
-      };
-
-      lorems.push(decoration);
     }
-
-    while ((paragraphMatch = paragraphRegEx.exec(content))) {
-      const startPos = activeEditor.document.positionAt(paragraphMatch.index);
-      const endPos = activeEditor.document.positionAt(
-        paragraphMatch.index + paragraphMatch[0].length,
-      );
-      const decoration = {
-        range: new vscode.Range(startPos, endPos),
-        hoverMessage: 'Do **NOT** use "Lorem Ipsum"!',
-      };
-
-      loremsParagraph.push(decoration);
-    }
-
-    activeEditor.setDecorations(loremDecorationType, lorems);
-    activeEditor.setDecorations(loremParagraphDecorationType, loremsParagraph);
   };
 
   activeEditor && triggerUpdateDecorations();
