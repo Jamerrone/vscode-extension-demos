@@ -6,11 +6,11 @@
 
 For this third demo, we are going to build an HTML Lorem Ipsum Hater. It will highlight every instance of the word "lorem" and each sentence where the word was found. This demo was quite complex to build and a lot of research was needed from my side to get it working the way I wanted/expected.
 
-The format for this demo/guide will also be a bit different than the previous ones. There is just a lot more code we need to get through so there will be less talking and more step by step instructions. There will be a lot of new functionality we did not discuss before so make sure you understand every new concept before continuing. I had a lot of fun getting everything working together so I hope you guys learn something from it.
+The format for this demo/guide will also be a bit different than in the previous ones. There is just a lot more code we need to get through so there will be less talking and more step by step instructions. There will be a lot of new functionalities we did not discuss yet so make sure you understand every new concept before continuing. I had a lot of fun getting everything working together so I really hope you guys learn something new from it.
 
 ## Generating & Preparing your new extension
 
-I hope that by now you know what tooling is required in order to generate a new VS Code Extension, but if you don't please take a look at the [first demo](../demo-1-hello-world/README.md). So let's start by creating a new extension with the type of `New Extension (JavaScript)` or `New Extension (TypeScript)` by running:
+I hope that by now you know which tooling is required in order to generate a new VS Code Extension, but if you don't please take a look at the instructions from the [first demo](../demo-1-hello-world/README.md). Now, let's start by creating a new extension with the type of `New Extension (JavaScript)` or `New Extension (TypeScript)` by running:
 
 `yo code`
 
@@ -55,9 +55,9 @@ const loremSentenceDecorationType = vscode.window.createTextEditorDecorationType
 );
 ```
 
-You can edit these rules to your liking, just keep in mind that the options are very limited. Next, we need to get the user's active editor, we also need to know when the user opens another editor or when he changes to another VS Code window so we can get the new active editor instead.
+You can edit these rules to your liking, just keep in mind that the options are very limited. Next, we need to get the user's active file, we also need to know when the user opens another file or when he changes to another VS Code window so we can get the new active file instead.
 
-Under the two decoration types add the following code:
+Under the two decoration types add the following code snippet:
 
 ```javascript
 let activeEditor = vscode.window.activeTextEditor;
@@ -90,11 +90,11 @@ const triggerUpdateDecorations = () => {
 activeEditor && triggerUpdateDecorations();
 ```
 
-- `activeEditor` is the variable where we store the currently active editor.
+- `activeEditor` is the variable where we store the currently active file.
 - The `triggerUpdateDecorations()` function checks if the `timeout` is set and if so, it deletes it. Then, it fires a new function called `updateDecorations()` after a short timeout of `250` milliseconds. This in order to limit how often our text decorations are applied, otherwise we can introduce input lag and/or bad performance.
-- `onDidChangeTextDocument()` and `onDidChangeActiveTextEditor()` are event listeners that make sure `activeEditor` always refers to the currently active editor. It also runs the `triggerUpdateDecorations()` function if the active editor has changed.
+- `onDidChangeTextDocument()` and `onDidChangeActiveTextEditor()` are event listeners that make sure `activeEditor` always refers to the currently active file. It also runs the `triggerUpdateDecorations()` function if the active file was changed.
 
-Now that we have our decorators and the user's curent active editor there is only one thing left to do. We need to render our decorators! Under the `triggerUpdateDecorations()` function and above `activeEditor && triggerUpdateDecorations()` paste the following code snippet:
+Now that we have our decorators and the user's current active file there is only one thing left to do. We need to render our decorators! Under the `triggerUpdateDecorations()` function and above `activeEditor && triggerUpdateDecorations()` paste the following code snippet:
 
 ```javascript
 const updateDecorations = () => {
@@ -153,6 +153,10 @@ First, let's take a look at our two regular expressions:
 Now let's take a look at our variables:
 
 - `loremMatch` & `sentenceMatch`: temporary stores the current found match.
-- `content`: stores the content of the current active file.
-- `languageId`: stores the language id of the current active file.
-- `lorems` & `loremSentences`: arrays that store every found match.
+- `content`: stores the text content of the current active file.
+- `languageId`: stores the language ID of the current active file.
+- `lorems` & `loremSentences`: stores every found word & sentence match.
+
+The two while loops simply create a new decoration for each found match that starts at the first character's index and ends at the last character's index. These decoration objects are then pushed and stored inside the `lorems` or `loremSentences` arrays. At the end of the `updateDecorations()` function you can find `activeEditor.setDecorations(loremDecorationType, lorems);` and `activeEditor.setDecorations(loremSentenceDecorationType, loremSentences);`. All that this code does is it applies the right decoration to every found word and sentence match in the current active file.
+
+That is all for today's demo/guide!
