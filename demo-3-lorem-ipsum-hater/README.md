@@ -10,7 +10,7 @@ The format for this demo/guide will also be a bit different than in the previous
 
 ## Generating & Preparing your new extension
 
-I hope that by now you know which tooling is required in order to generate a new VS Code Extension, but if you don't please take a look at the instructions from the [first demo](../demo-1-hello-world/README.md). Now, let's start by creating a new extension with the type of `New Extension (JavaScript)` or `New Extension (TypeScript)` by running:
+I hope that by now you know which tooling is required in order to generate a new VS Code Extension, but if you don't please take a look at the instructions from the [Demo 1](../demo-1-hello-world/README.md). Now, let's start by creating a new extension with the type of `-> New Extension (JavaScript)` or `-> New Extension (TypeScript)` by running:
 
 `yo code`
 

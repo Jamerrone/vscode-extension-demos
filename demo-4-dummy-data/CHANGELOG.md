@@ -1,7 +1,7 @@
 # Change Log
-All notable changes to the "demo-4-dummy-data" extension will be documented in this file.
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+All notable changes to the "Demo 1: Hello World" extension will be documented in this file.
 
-## [Unreleased]
+## [1.0.0]
+
 - Initial release
